@@ -2,6 +2,7 @@ package ru.ergakov.gb.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.ergakov.gb.aspects.TrackUserAction;
 import ru.ergakov.gb.model.Act;
 import ru.ergakov.gb.repositories.ActRepository;
 import ru.ergakov.gb.service.ActService;
@@ -21,6 +22,7 @@ public class ActServiceImpl implements ActService {
      *
      * @return список заметок
      */
+    @TrackUserAction
     @Override
     public List<Act> getAllActs() {
         return actRepository.findAll();
@@ -32,6 +34,7 @@ public class ActServiceImpl implements ActService {
      * @param act новая заметка
      * @return сохраненная заметка
      */
+    @TrackUserAction
     @Override
     public Act createAct(Act act) {
         return actRepository.save(act);
@@ -43,6 +46,7 @@ public class ActServiceImpl implements ActService {
      * @param id id заметки
      * @return искомая заметка
      */
+    @TrackUserAction
     @Override
     public Act getActById(Long id) {
         return actRepository.findById(id).orElseThrow(null);
@@ -53,6 +57,7 @@ public class ActServiceImpl implements ActService {
      *
      * @return обновленная заметка
      */
+    @TrackUserAction
     @Override
     public Act updateAct(Act act) {
         return actRepository.save(act);
@@ -63,12 +68,14 @@ public class ActServiceImpl implements ActService {
      *
      * @param id id заметки
      */
+    @TrackUserAction
     @Override
     public void deleteAct(Long id) {
         Act actById = getActById(id);
         actRepository.delete(actById);
     }
 
+    @TrackUserAction
     @Override
     public List<Act> findActByReportingPeriod(String reportingPeriod){
         return actRepository.findActByReportingPeriod(reportingPeriod);
