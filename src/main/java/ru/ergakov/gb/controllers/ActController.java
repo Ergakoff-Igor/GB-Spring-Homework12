@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.ergakov.gb.model.Act;
 import ru.ergakov.gb.service.ActService;
+import ru.ergakov.gb.service.FileGateway;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ActController {
     private final ActService actService;
+    private final FileGateway fileGateway;
 
     @GetMapping("/acts")
     public String findAll(Model model) {
@@ -31,6 +33,7 @@ public class ActController {
     @PostMapping("/act-create")
     public String createAct(Act act) {
         actService.createAct(act);
+        fileGateway.writeToFile(act.getReportingPeriod() + ".txt", act.toString());
         return "redirect:/acts";
     }
 
